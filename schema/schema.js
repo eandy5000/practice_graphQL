@@ -7,7 +7,11 @@ const {
     GraphQLSchema
 } = graphQL;
 
-const users = [];
+const users = [
+    {id: '1', firstName: "Bill", age: 20},
+    {id: '2', firstName: "Joe", age: 25},
+    {id: '3', firstName: "Jane", age: 29}
+    ];
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -23,10 +27,14 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         user: {
             type: UserType,
-            args: { id: GraphQLString },
+            args: { id: {type: GraphQLString } },
             resolve (parentValue, args) {
                 return _.find(users, { id: args.id })
             }
         }
     }
+});
+
+module.exports = new GraphQLSchema({
+    query: RootQuery
 });
